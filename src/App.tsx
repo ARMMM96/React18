@@ -4,16 +4,18 @@ import produce from "immer";
 
 function App() {
 
-  const [buts, setBugs] = useState([
-    { id: 1, title: "Bug1", fixed: false },
-    { id: 2, title: "Bug2", fixed: false },
-  ])
+  const [customer, setCustomer] = useState({
+    name: 'John',
+    address: {
+      city: 'San Francisco',
+      zipCode: 94111
+    }
+  })
+
 
   const handleClick = () => {
-    setBugs(produce(draft => {
-      const bug = draft.find(bug => bug.id === 1);
-      if (bug) bug.fixed = true;
-    }))
+
+    setCustomer({ ...customer, address: { ...customer.address, zipCode: 94112 } })
 
   }
 
@@ -22,7 +24,7 @@ function App() {
   const [alertVisible, setAlertVisibility] = useState(false);
 
   return (<div className="container mt-5">
-    {buts.map(bug => <p key={bug.id} >{bug.title} {bug.fixed ? 'fixed' : 'new'}</p>)}
+
     <button onClick={handleClick}>Click The button</button>
   </div>);
 }
