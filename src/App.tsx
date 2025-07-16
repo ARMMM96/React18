@@ -1,19 +1,30 @@
 import { useState } from "react";
-import Alert from "./components/Alert";
-import Button from "./components/Button";
-
+import produce from "immer";
 
 
 function App() {
 
+  const [buts, setBugs] = useState([
+    { id: 1, title: "Bug1", fixed: false },
+    { id: 2, title: "Bug2", fixed: false },
+  ])
+
+  const handleClick = () => {
+    setBugs(produce(draft => {
+      const bug = draft.find(bug => bug.id === 1);
+      if (bug) bug.fixed = true;
+    }))
+
+  }
+
+
+
   const [alertVisible, setAlertVisibility] = useState(false);
 
-  return <div className="container mt-5">
-
-    {alertVisible && <Alert onClose={() => setAlertVisibility(false)}>My alert</Alert>}
-
-    <Button text="My Button" onClick={() => setAlertVisibility(true)} ButtonColor="primary" />
-  </div>;
+  return (<div className="container mt-5">
+    {buts.map(bug => <p key={bug.id} >{bug.title} {bug.fixed ? 'fixed' : 'new'}</p>)}
+    <button onClick={handleClick}>Click The button</button>
+  </div>);
 }
 
 
